@@ -1,3 +1,7 @@
+    <div class="form-group">
+        <label for="video">{{ trans('dashboard/admin.upload_video') }}</label>
+        <input type="file" name="path" class="form-control-file">
+    </div>
     <div class="form-group row" class="my-2">
         <div class="col-lg-6">
             <label class="mb-2">{{ __('dashboard/forms.fullname') }}</label>
@@ -31,13 +35,23 @@
             <label class="my-2">{{ __('dashboard/forms.playlists') }}</label>
             <select name="playlist_id" id="playlist_id" class="form-control form-control-solid">
                 <option value="">Select Your Playlist ...</option>
-                @if($video)
+
                     @foreach ($playlists as $playlist)
-                        <option value="{{ $playlist->id }}" {{ $playlist->id == $video->playlist_id ? 'selected' : '' }}>{{ $playlist->name }}</option>
+                        <option value="{{ $playlist->id }}" {{-- $playlist->id == $video->playlist_id ? 'selected' : '' --}}>{{ $playlist->name }}</option>
                     @endforeach
-                @endif
+
             </select>
             <span class="form-text text-muted">Please select playlist</span>
+        </div>
+
+        <div class="form-group">
+            <label for="allow_likes">{{ trans('dashboard/admin.allow_likes') }}</label>
+            <input type="checkbox" name="allow_likes" value="1" {{ old('allow_likes') ? 'checked' : '' }}>
+        </div>
+
+        <div class="form-group">
+            <label for="allow_comments">{{ trans('dashboard/admin.allow_comments') }}</label>
+            <input type="checkbox" name="allow_comments" value="1" {{ old('allow_comments') ? 'checked' : '' }}>
         </div>
     </div>
 

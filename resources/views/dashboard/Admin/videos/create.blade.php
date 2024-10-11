@@ -29,7 +29,7 @@
 
 
     <div class="card">
-        <div id="video_upload-wrapper"
+        {{--<div id="video_upload-wrapper"
             onclick="document.getElementById('video_input-file').click()"
             >
             <i class="fa fa-video fa-3x"></i>
@@ -41,23 +41,23 @@
             data-video-id="{{ $video->id }}"
             data-url="{{ route('admin.videos.store') }}"
             id="video_input-file"
-            style="display: none">
+            style="display: none">--}}
 
-        <form id="video_properties" class="form" method="POST" action="{{ route('admin.videos.update', ['video'=> $video->id , 'type' => 'publish']) }}" style="display: none" enctype="multipart/form-data">
+        {{--<form id="video_properties" class="form" method="POST" action="{{ route('admin.videos.update', ['video'=> $video->id , 'type' => 'publish']) }}" style="display: none" enctype="multipart/form-data">--}}
+        <form id="video_properties" class="form" method="POST" action="{{ route('admin.videos.store') }}" enctype="multipart/form-data">
             @csrf
-            @method('put')
             <div class="card-body">
-                <div class="form-group">
+                {{--<div class="form-group">
                     <label for="" style="margin-bottom:11px;" id="video_upload-status">Uploading ...</label>
                     <div class="progress">
                         <div class="progress-bar bg-success" id="video_upload-progress" role="progressbar"></div>
                     </div>
-                </div><br><br>
+                </div><br><br>--}}
                 @include('dashboard.Admin.videos.form')
                 <div class="">
                     <div class="row my-4 mx-3">
 
-                            <button type="submit" id="video_submit-btn" style="display: {{ $errors->any() ? 'block' : 'none' }};" class="btn btn-primary">Save</button>
+                            <button type="submit" id="video_submit-btn" class="btn btn-primary">Save</button>
                     </div>
                 </div>
             </div>

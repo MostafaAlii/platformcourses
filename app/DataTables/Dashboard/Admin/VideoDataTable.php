@@ -1,19 +1,13 @@
 <?php
-
 namespace App\DataTables\Dashboard\Admin;
-
-use App\Models\Admin;
-
 use App\DataTables\Base\BaseDataTable;
-use App\Models\Video;
-use App\Models\Playlist;
+use App\Models\{Video,Playlist};
 use Flasher\Laravel\Http\Request;
 use Yajra\DataTables\EloquentDataTable;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\Utilities\Request as DataTableRequest;
-
-class VideoDataTable extends BaseDataTable
-{
+use Illuminate\Support\Facades\{Storage};
+class VideoDataTable extends BaseDataTable {
     protected function getParameters() {
         $parameters = parent::getParameters();
         if(!request()->has('filter'))
@@ -43,17 +37,19 @@ class VideoDataTable extends BaseDataTable
 
         return $parameters;
     }
-    public function __construct(DataTableRequest $request)
-    {
+    public function __construct(DataTableRequest $request) {
         parent::__construct(new Video());
         $this->request = $request;
     }
 
-    public function dataTable($query): EloquentDataTable
-    {
+    public function dataTable($query): EloquentDataTable {
         return (new EloquentDataTable($query))
             ->addColumn('action', function (Video $video) {
                 return view('dashboard.admin.videos.btn.actions', compact('video'));
+            })
+            ->editColumn('path', function (Video $video) {
+                $videoUrl = Storage::url($video->path);
+                return '<button class="btn btn-sm btn-primary" onclick="playVideo(\'' . $videoUrl . '\')">🎥 Play</button>';
             })
             ->editColumn('created_at', function (Video $video) {
                 return $this->formatBadge($this->formatDate(value: $video->created_at));
@@ -70,21 +66,18 @@ class VideoDataTable extends BaseDataTable
             ->editColumn('status', function (Video $video) {
                 return $this->formatStatus($video->status);
             })
-            ->rawColumns(['action', 'created_at', 'updated_at', 'deleted_at', 'status', 'name']);
+            ->rawColumns(['action', 'created_at', 'updated_at', 'deleted_at', 'status', 'name', 'path']);
     }
 
-    public function query(): QueryBuilder
-    {
+    public function query(): QueryBuilder {
         return Video::query();
     }
 
-    public function getColumns(): array
-    {
-
-
+    public function getColumns(): array {
         return [
             ['name' => 'id', 'data' => 'id', 'title' => '#', 'orderable' => false, 'searchable' => false],
             ['name' => 'name', 'data' => 'name', 'title' => trans('dashboard/admin.name')],
+            ['name' => 'path', 'data' => 'path', 'title' => 'Video','orderable' => false, 'searchable' => false],
             ['name' => 'course', 'data' => 'course', 'title' => trans('dashboard/admin.course')],
             ['name' => 'playlist', 'data' => 'playlist', 'title' => trans('dashboard/admin.playlist')],
             ['name' => 'created_at', 'data' => 'created_at', 'title' => trans('dashboard/general.created_at'), 'orderable' => false, 'searchable' => false],

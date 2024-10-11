@@ -2,6 +2,7 @@
 
 @section('css')
 <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+</style>
 @endsection
 
 @section('pageTitle')
@@ -38,15 +39,32 @@
                     <!--begin::Table-->
                     <table class="table table-striped table-row-bordered gy-5 gs-7">
                         {!! $dataTable->table() !!}
-
                     </table>
                     <!--end::Table-->
                 </div>
                 <!--end::Table container-->
+                <!-- Start Video Modal -->
+                <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="videoModalLabel">Video Player</h5>
+                                <button type="button" class="btn" data-dismiss="modal" aria-label="Close" onclick="pauseVideo()">
+                                    <span class="btn-close" aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <video id="videoPlayer" controls style="width: 100%; border-radius: 3px;">
+                                    <source src="" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Video Modal -->
             </div>
             <!--end::Header-->
-            <!--begin::Body-->
-            <!--begin::Body-->
         </div>
 @endsection
 
@@ -57,4 +75,19 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 {!! $dataTable->scripts() !!}
+
+<script>
+function playVideo(videoUrl) {
+    var videoPlayer = document.getElementById('videoPlayer');
+    videoPlayer.src = videoUrl;
+    $('#videoModal').modal('show');
+}
+
+function pauseVideo() {
+    var videoPlayer = document.getElementById('videoPlayer');
+    videoPlayer.pause();
+    videoPlayer.currentTime = 0;
+    $('#videoModal').modal('hide');
+}
+</script>
 @endpush

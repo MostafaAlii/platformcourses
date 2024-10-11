@@ -435,20 +435,15 @@
         <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-    // الحصول على جميع أيقونات التشغيل
-    const playIcons = document.querySelectorAll('.play-video-icon');
-
-    playIcons.forEach(icon => {
-        // إضافة مستمع للأحداث لكل أيقونة تشغيل
-        icon.addEventListener('click', function() {
-            const videoId = this.id.replace('play-video-', ''); // الحصول على ID الفيديو
-            const video = document.getElementById(`my-video-${videoId}`);
-
-            // تشغيل الفيديو عند الضغط على الأيقونة
-            video.play();
-        });
-    });
-});
+                const playIcons = document.querySelectorAll('.play-video-icon');
+                playIcons.forEach(icon => {
+                    icon.addEventListener('click', function() {
+                        const videoId = this.id.replace('play-video-', '');
+                        const video = document.getElementById(`my-video-${videoId}`);
+                        video.play();
+                    });
+                });
+            });
 
         </script>
 
